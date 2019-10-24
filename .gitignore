@@ -1,0 +1,5 @@
+/.vs
+/csharp/.vs
+/csharp/tcp.clients/obj
+/csharp/tcp.clients/bin
+/csharp/tcp.clients/tcp.clients.csproj.user
