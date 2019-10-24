@@ -1,0 +1,132 @@
+﻿<VirtualHost *:443>
+    #ProxyPreserveHost On
+	
+	#DocumentRoot c:/Apache2/htdocs
+    ServerName localhost
+	
+	SSLEngine on
+	SSLCertificateFile C:\openssl\bin\STAR_f88_vn.crt
+	SSLCertificateKeyFile C:\openssl\bin\private.key
+	#SSLCertificateChainFile /path/to/DigiCertCA.crt	
+		
+	#-----------------------------------------------------------------------
+	# APP_VTP
+	
+	#>API: APP_Viettel-post 9096 > MessageBroker
+	ProxyPass "/vtp/9096/api/"  "http://127.0.0.1:9096/api/"
+	ProxyPassReverse "/vtp/9096/api/"  "http://127.0.0.1:9096/api/"
+	
+	#>API: APP_Viettel-post 9093 > /api/vtp_pawn_invited/...
+	ProxyPass "/vtp/9093/api/"  "http://127.0.0.1:9093/api/"
+	ProxyPassReverse "/vtp/9093/api/"  "http://127.0.0.1:9093/api/"
+	
+	#-----------------------------------------------------------------------
+	# APP_POS
+	
+	ProxyPass "/app_pos/9990/api/"  "http://127.0.0.1:9990/api/"
+	ProxyPassReverse "/app_pos/9990/api/"  "http://127.0.0.1:9990/api/"
+	
+	#-----------------------------------------------------------------------
+	# APP_KH
+	
+	#>API: APP_KH 9999
+	ProxyPass "/app_kh/api/"  "http://127.0.0.1:9999/api/"
+	ProxyPassReverse "/app_kh/api/"  "http://127.0.0.1:9999/api/"
+	
+	#>F88APP_KH 
+	ProxyPass "/f88app/"  "http://127.0.0.1:56789/f88app/"
+	ProxyPassReverse "/f88app/"  "http://127.0.0.1:56789/f88app/"
+	
+	
+	#///////////////////////////////////////////////////////////////////////
+	#///////////////////////////////////////////////////////////////////////
+
+	ProxyPass "/favicon.ico" "http://127.0.0.1:5000/favicon.ico"
+	ProxyPassReverse "/favicon.ico" "http://127.0.0.1:5000/favicon.ico"	
+
+	#-----------------------------------------------------------------------
+	# LIBS
+	
+	#> 000
+	ProxyPass "/_libs/" "http://127.0.0.1:5000/_libs/"
+	ProxyPassReverse "/_libs/" "http://127.0.0.1:5000/_libs/"	
+	
+	#-----------------------------------------------------------------------
+	# 001.login
+	
+	ProxyPass "/login/api/" "http://127.0.0.1:5001/api/"
+	ProxyPassReverse "/login/api/" "http://127.0.0.1:5001/api/"	
+	
+	ProxyPass "/login" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/login" "http://127.0.0.1:5000/"	
+	
+	#-----------------------------------------------------------------------
+	# 002.profile
+	
+	ProxyPass "/profile/api/" "http://127.0.0.1:5002/api/"
+	ProxyPassReverse "/profile/api/" "http://127.0.0.1:5002/api/"	
+	
+	ProxyPass "/profile" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/profile" "http://127.0.0.1:5000/"	
+	
+	#-----------------------------------------------------------------------
+	# 003.adm-pawn-online
+	
+	ProxyPass "/adm-pawn-online/api/" "http://127.0.0.1:5003/api/"
+	ProxyPassReverse "/adm-pawn-online/api/" "http://127.0.0.1:5003/api/"
+	
+	ProxyPass "/adm-pawn-online" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/adm-pawn-online" "http://127.0.0.1:5000/"
+		
+	#-----------------------------------------------------------------------
+	# 004.adm-vtp-pawn
+	
+	ProxyPass "/adm-vtp-pawn/api/" "http://127.0.0.1:5004/api/"
+	ProxyPassReverse "/adm-vtp-pawn/api/" "http://127.0.0.1:5004/api/" 
+	
+	ProxyPass "/adm-vtp-pawn" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/adm-vtp-pawn" "http://127.0.0.1:5000/"	
+	
+	#-----------------------------------------------------------------------
+	# 005.adm-vtp-pawn-invited
+	
+	ProxyPass "/adm-vtp-pawn-invited/api/" "http://127.0.0.1:5004/api/"
+	ProxyPassReverse "/adm-vtp-pawn-invited/api/" "http://127.0.0.1:5004/api/" 
+	
+	ProxyPass "/adm-vtp-pawn-invited" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/adm-vtp-pawn-invited" "http://127.0.0.1:5000/"	
+	
+	#-----------------------------------------------------------------------
+	# 006.adm-affiliate-accountant
+	
+	ProxyPass "/adm-affiliate-accountant/api/" "http://127.0.0.1:5005/api/"
+	ProxyPassReverse "/adm-affiliate-accountant/api/" "http://127.0.0.1:5005/api/" 
+	
+	ProxyPass "/adm-affiliate-accountant" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/adm-affiliate-accountant" "http://127.0.0.1:5000/"	
+		
+	#-----------------------------------------------------------------------
+	# 007.adm-affiliate-finance-sg
+	
+	ProxyPass "/adm-affiliate-finance-sg/api/" "http://127.0.0.1:5006/api/"
+	ProxyPassReverse "/adm-affiliate-finance-sg/api/" "http://127.0.0.1:5006/api/" 
+	
+	ProxyPass "/adm-affiliate-finance-sg" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/adm-affiliate-finance-sg" "http://127.0.0.1:5000/"	
+		
+	#///////////////////////////////////////////////////////////////////////
+	#///////////////////////////////////////////////////////////////////////
+	
+	#-----------------------------------------------------------------------
+	# F88.VN
+	
+	#>Proxy -> F88.VN 33333
+	ProxyPass "/"  "http://test.f88.vn:33333/"
+	ProxyPassReverse "/"  "http://test.f88.vn:33333/"
+	
+	#>IIS -> ADMIN-UI
+	ProxyPass "/admin"  "http://127.0.0.1:56789/"
+	ProxyPassReverse "/admin"  "http://127.0.0.1:56789/"
+	
+    #ServerName localhost
+</VirtualHost>

@@ -1,0 +1,17 @@
+﻿
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+stream {
+    # upstream tcp_backend { server 127.0.0.1:3456; }
+    # server { listen 80; proxy_pass tcp_backend; }
+	
+	upstream dns_servers { server 127.0.0.1:2345; }
+	server { 
+		listen 8555 udp; 
+		proxy_pass dns_servers; 
+	}
+}

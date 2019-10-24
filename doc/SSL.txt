@@ -1,0 +1,15 @@
+
+RUN > Certmgr.msc
+
+Install-Package AspNetWebApi.SelfHost -Version 4.0.20126.16343
+
+netsh http add urlacl url=http://+:9876/ user=Everyone
+netsh http add urlacl url=https://+:9876/ user=Everyone
+netsh http add sslcert ipport=0.0.0.0:9876 certhash=6e4aaca088cc54ceb03624c2e855b6fb187ab44d appid={00000000-0000-0000-0000-AABBCCDDEEFF}
+
+
+
+netsh http add urlacl url=https://+:44300/ user=Everyone
+
+netsh http add sslcert ipport=0.0.0.0:44300 certhash=6e4aaca088cc54ceb03624c2e855b6fb187ab44d appid={229A600C-A71B-4278-BF8A-B452CE0D4ECD}
+

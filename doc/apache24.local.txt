@@ -1,0 +1,127 @@
+﻿
+<VirtualHost *:443>
+    #ProxyPreserveHost On
+	
+	DocumentRoot c:/Apache2/htdocs
+    ServerName test.f88.vn
+	
+	SSLEngine on
+	SSLCertificateFile C:\openssl\bin\STAR_f88_vn.crt
+	SSLCertificateKeyFile C:\openssl\bin\private.key
+	#SSLCertificateChainFile /path/to/DigiCertCA.crt	
+	
+	#///////////////////////////////////////////////////////////////////////
+
+	ProxyPass "/favicon.ico" "http://127.0.0.1:5000/favicon.ico"
+	ProxyPassReverse "/favicon.ico" "http://127.0.0.1:5000/favicon.ico"	
+
+	ProxyPass "/notify/sse" "http://127.0.0.1:5535/notify/sse"
+	ProxyPassReverse "/notify/sse" "http://127.0.0.1:5535/notify/sse"
+	
+	#-----------------------------------------------------------------------
+	# DB
+	
+	ProxyPass "/dbs" "http://127.0.0.1:3456/"
+	ProxyPassReverse "/dbs" "http://127.0.0.1:3456/"
+	
+	ProxyPass "/db/info" "http://127.0.0.1:5984/"
+	ProxyPassReverse "/db/info" "http://127.0.0.1:5984/"
+	
+	ProxyPass "/_session" "http://127.0.0.1:5984/_session"
+	ProxyPassReverse "/_session" "http://127.0.0.1:5984/_session"
+	
+	ProxyPass "/_all_dbs" "http://127.0.0.1:5984/_all_dbs"
+	ProxyPassReverse "/_all_dbs" "http://127.0.0.1:5984/_all_dbs"
+		
+	
+	ProxyPass "/db_test/_local/" "http://127.0.0.1:5984/db_test/_local/"
+	ProxyPassReverse "/db_test/_local/" "http://127.0.0.1:5984/db_test/_local/"
+	
+	ProxyPass "/db_test" "http://127.0.0.1:5984/db_test"
+	ProxyPassReverse "/db_test" "http://127.0.0.1:5984/db_test"
+	
+	ProxyPass "/db/" "http://127.0.0.1:5984/_utils/"
+	ProxyPassReverse "/db/" "http://127.0.0.1:5984/_utils/"
+	
+	
+	#-----------------------------------------------------------------------
+	# LIBS - TEMP - ADM-TEST
+	
+	ProxyPass "/_libs/" "http://127.0.0.1:5000/_libs/"
+	ProxyPassReverse "/_libs/" "http://127.0.0.1:5000/_libs/"
+	
+	ProxyPass "/temp/" "http://127.0.0.1:5000/_temp/"
+	ProxyPassReverse "/temp/" "http://127.0.0.1:5000/_temp/"
+	
+	ProxyPass "/adm-test" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/adm-test" "http://127.0.0.1:5000/"
+	
+	#-----------------------------------------------------------------------
+	# 001.login
+	
+	ProxyPass "/login/api/" "http://127.0.0.1:5001/api/"
+	ProxyPassReverse "/login/api/" "http://127.0.0.1:5001/api/"	
+	
+	ProxyPass "/login" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/login" "http://127.0.0.1:5000/"	
+	
+	#-----------------------------------------------------------------------
+	# 002.profile
+	
+	ProxyPass "/profile/api/" "http://127.0.0.1:5002/api/"
+	ProxyPassReverse "/profile/api/" "http://127.0.0.1:5002/api/"	
+	
+	ProxyPass "/profile" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/profile" "http://127.0.0.1:5000/"	
+	
+	#-----------------------------------------------------------------------
+	# 003.adm-pawn-online
+	
+	ProxyPass "/adm-pawn-online/api-json" "http://127.0.0.1:5003/api/test/get_sql_json/"
+	ProxyPassReverse "/adm-pawn-online/api-json" "http://127.0.0.1:5003/api/test/get_sql_json/"
+	
+	ProxyPass "/adm-pawn-online/api/" "http://127.0.0.1:5003/api/"
+	ProxyPassReverse "/adm-pawn-online/api/" "http://127.0.0.1:5003/api/"
+	
+	ProxyPass "/adm-pawn-online" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/adm-pawn-online" "http://127.0.0.1:5000/"
+		
+	#-----------------------------------------------------------------------
+	# 004.adm-vtp-pawn
+	
+	ProxyPass "/adm-vtp-pawn/api/" "http://127.0.0.1:5004/api/"
+	ProxyPassReverse "/adm-vtp-pawn/api/" "http://127.0.0.1:5004/api/" 
+	
+	ProxyPass "/adm-vtp-pawn" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/adm-vtp-pawn" "http://127.0.0.1:5000/"	
+	
+	#-----------------------------------------------------------------------
+	# 005.adm-vtp-pawn-invited
+	
+	ProxyPass "/adm-vtp-pawn-invited/api/" "http://127.0.0.1:5004/api/"
+	ProxyPassReverse "/adm-vtp-pawn-invited/api/" "http://127.0.0.1:5004/api/" 
+	
+	ProxyPass "/adm-vtp-pawn-invited" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/adm-vtp-pawn-invited" "http://127.0.0.1:5000/"	
+	
+	#-----------------------------------------------------------------------
+	# 006.adm-affiliate-accountant
+	
+	ProxyPass "/adm-affiliate-accountant/api/" "http://127.0.0.1:5005/api/"
+	ProxyPassReverse "/adm-affiliate-accountant/api/" "http://127.0.0.1:5005/api/" 
+	
+	ProxyPass "/adm-affiliate-accountant" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/adm-affiliate-accountant" "http://127.0.0.1:5000/"	
+		
+	#-----------------------------------------------------------------------
+	# 007.adm-affiliate-finance-sg
+	
+	ProxyPass "/adm-affiliate-finance-sg/api/" "http://127.0.0.1:5006/api/"
+	ProxyPassReverse "/adm-affiliate-finance-sg/api/" "http://127.0.0.1:5006/api/" 
+	
+	ProxyPass "/adm-affiliate-finance-sg" "http://127.0.0.1:5000/"
+	ProxyPassReverse "/adm-affiliate-finance-sg" "http://127.0.0.1:5000/"	
+		
+	#///////////////////////////////////////////////////////////////////////	
+	
+</VirtualHost>
