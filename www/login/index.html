@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>PawnOnline</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <script src="/lib/classie.js"></script>
+    <script src="/lib/jquery.min.3.3.1.js"></script>
+    <script src="/lib/underscore.js"></script>
+    <script src="/lib/head.load.min.js"></script>
+
+    <script src="/lib/vue/vue.min.js"></script>
+    <script src="/lib/vue/vue-router.min.js"></script>
+
+    <script src="/lib/fomantic-ui/semantic.min.js"></script>
+    <link href="/lib/fomantic-ui/semantic.min.css" rel="stylesheet" />
+
+    <script src="/lib/sweetalert.min.js"></script>
+</head>
+<body>
+    <div id="ui-app"></div>
+
+    <script type="text/javascript">
+        head.load([
+            { js_app: '/login/app.js' },
+            { js_global: '/core/global.js' },
+            { js_init: '/core/init.js' },
+            { js_mixin: '/core/mixin.js' }
+        ], function (vals) {
+            _app_install();
+        });
+    </script>
+</body>
+</html>

@@ -13,3 +13,105 @@ netsh http add urlacl url=https://+:44300/ user=Everyone
 
 netsh http add sslcert ipport=0.0.0.0:44300 certhash=6e4aaca088cc54ceb03624c2e855b6fb187ab44d appid={229A600C-A71B-4278-BF8A-B452CE0D4ECD}
 
+
+TASKKILL /F /IM "nginx*"
+
+C:\Program Files\OpenSSL-Win64
+
+openssl.exe genrsa -des3 -out rootSSL.key 2048
+
+
+openssl.exe pkcs12 -in publicAndprivate.pfx -nocerts -out privateKey.pem
+
+------------------------------
+- Open Windows File Explorer.
+- Navigate to the OpenSSL bin directory.
+- c:\OpenSSL\bin\ in our example.
+- Right-click the openssl.exe file and select Run as administrator.
+- Enter the following command to begin generating a certificate and private key:
+	> genrsa -des3 -out rootSSL.key 2048
+	> req -config openssl.cnf -x509 -new -nodes -key rootSSL.key -sha256 -days 1024 -out rootSSL.pem
+	> pkcs12 -inkey rootSSL.key -in rootSSL.pem -export -out rootSSL.pfx
+	
+	> req -config openssl.cnf -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout rootSSL.key -out rootSSL.crt
+	> req -config openssl.cnf -new -sha256 -nodes -out rootSSL.csr -newkey rsa:2048 -keyout rootSSL.key -subj "/C=AU/ST=NSW/L=Sydney/O=Client One/OU=Dev/CN=*.iot.vn/emailAddress=hello@client-1.local"
+	
+- Run > Certmgr.msc . import file rootSSL.pem
+
+
+
+pass localhost 123456@Aa
+> pkcs12 -in rootSSL.pfx -nocerts -out rootSSL.pem -nodes
+> pkcs12 -in rootSSL.pem -clcerts -nokeys -out rootSSL.crt
+> pkcs12 -in rootSSL.pem -nocerts -out rootSSL-encrypted.key
+
+12345@Aa
+genrsa -des3 -out iot.key 2048
+req -config openssl.cnf -new -key iot.key -sha256  -out iot.csr
+
+
+genrsa -des3 -out test.key 2048
+req -config openssl.cnf -new -x509 -nodes -sha256 -days 365 -key test.key -out test.crt
+pkcs12 -export -out test.pfx -inkey test.key -in test.crt
+
+F88123a!@#
+pkcs12 -in STAR_f88_vn.pfx -nocerts -out STAR_f88_vn.key
+pkcs12 -in STAR_f88_vn.pfx -clcerts -nokeys -out STAR_f88_vn.crt
+
+
+
+pass localhost 12345@Aa
+> pkcs12 -in localhost.pfx -nocerts -out localhost.pem -nodes
+> pkcs12 -in localhost.pfx -clcerts -nokeys -out localhost.crt
+> pkcs12 -in localhost.pfx -nocerts -out localhost-encrypted.key
+
+
+
+
+
+
+
+
+
+0k?????????????????????????????????????????
+req -config openssl.cnf -x509 -nodes -days 36500 -newkey rsa:4096 -keyout nginx.key -out nginx.crt
+pkcs12 -export -out nginx.pfx -inkey nginx.key -in nginx.crt
+
+
+
+
+==========================================================
+
+PID:4 using Port 80
+
+You need to change the binded IP address for HTTP.SYS
+
+netsh http add iplisten ipaddress=::
+
+
+
+There is two ways to disable it but the first one is safer:
+
+1.
+
+Go to device manager, select “show hidden devices” from menu/view, go to “Non-Plug and Play Driver”/HTTP, double click it to disable it (or set it to manual, some services depended on it).
+
+Reboot and use netstat -nao | find ":80" to check if 80 is still used.
+
+2.
+
+Launch RegEdit.
+
+Go to HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\HTTP
+
+Change the value of "start" to 4, which means disabled.
+
+Reboot your computer.
+
+My solution was step 4.
+
+
+
+
+
+

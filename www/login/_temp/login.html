@@ -1,0 +1,34 @@
+﻿<div>
+    <div class="ui segment">
+        <div class="ui active inverted dimmer hidden">
+            <div class="ui large text loader">Đang xử lý...</div>
+        </div>
+        <div class="ui middle aligned center aligned grid">
+            <div class="column">
+                <div class="ui form">
+                    <div class="field">
+                        <label>Username</label>
+                        <div class="ui left icon input">
+                            <input type="text" v-model="username" name="username" placeholder="Username" onkeyup="if (event.KeyCode === 13) { event.preventDefault(); }">
+                            <i class="user icon"></i>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <div class="ui left icon input">
+                            <input type="password" v-model="password" name="password" placeholder="Password" onkeyup="if (event.KeyCode === 13) { event.preventDefault(); }">
+                            <i class="lock icon"></i>
+                        </div>
+                    </div>
+                    <div class="ui blue submit green button" v-bind:class="[is_setup ? 'loading disabled':'']" v-on:click="fn_loginClick($event)">Login</div>
+                    <div class="field">
+                        <p style="color:red;font-family:Arial;padding-top:5px;">{{is_setup ? 'Đang cài đặt dữ liệu...':''}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="ui progress bottom attached fast indeterminate success" data-value="100" data-total="200">
+            <div class="bar"></div>
+        </div>-->
+    </div>
+</div>

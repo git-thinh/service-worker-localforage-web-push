@@ -5,7 +5,5 @@ self.addEventListener('push', async event => {
     console.log('SW -> PUSH = ', data);
 
 
-    self.registration.showNotification(data.title, {
-        body: 'Yay it works!'
-    });
+    //self.registration.showNotification(data.title, { body: 'Yay it works!' });
 });
