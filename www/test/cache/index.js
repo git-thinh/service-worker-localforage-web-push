@@ -14,6 +14,28 @@ var ___go_login = function (msg) {
         location.href = location.protocol + '//' + location.host + '/login';
 };
 
+var ___sendApiRawAll = function (apiName) {
+
+    return new Promise(function (resolve, reject) {
+        var messageChannel = new MessageChannel();
+        messageChannel.port1.onmessage = function (event) {
+            var msg = event.data;
+
+            //console.log('UI.___postApi = ', msg);
+
+            if (msg.ok || msg.loading) {
+                resolve(msg);
+            } else {
+                reject(msg);
+            }
+        };
+
+        var id = _base_guid();
+        var m = { id: id, command: 'DATA_RAW_ALL', data: apiName, options: {} };
+        if (SW) SW.postMessage(m, [messageChannel.port2]);
+    });
+};
+
 //#endregion
 
 //#region [ MSG_CLIENT ]

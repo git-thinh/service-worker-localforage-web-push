@@ -12,16 +12,6 @@ console.log('SW._ROOT_PATH = ', _ROOT_PATH, ', _DB_SYNC_ONCE_INSTALL_SW = ', _DB
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-var _URI_BASE = 'https://test.f88.vn/';
-console.log('?????????????????', _URI_BASE);
-
-importScripts('./lib/ServiceWorkerWare.js');
-
-//By using Mozilla's ServiceWorkerWare we can quickly setup some routes
-var ___API = new ServiceWorkerWare();
-
-///////////////////////////////////////////////////////////////////////////////////
-
 //#region [ MSG ]
 
 const MSG_REG_WEB_PUSH = new BroadcastChannel('MSG_REG_WEB_PUSH');
@@ -157,81 +147,6 @@ const ___sw_on_activate = function (e) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-//#region [ FETCH - API ]
-
-// List of the default quotations.
-var quotations = [
-    {
-        text: 'Humanity is smart. Sometime in the technology world we think' +
-            'we are smarter, but we are not smarter than you.',
-        author: 'Mitchell Baker'
-    },
-    {
-        text: 'A computer would deserve to be called intelligent if it could ' +
-            'deceive a human into believing that it was human.',
-        author: 'Alan Turing'
-    },
-    {
-        text: 'If you optimize everything, you will always be unhappy.',
-        author: 'Donald Knuth'
-    },
-    {
-        text: 'If you don\'t fail at least 90 percent of the time' +
-            'you\'re not aiming high enough',
-        author: 'Alan Kay'
-    },
-    {
-        text: 'Colorless green ideas sleep furiously.',
-        author: 'Noam Chomsky'
-    }
-].map(function (quotation, index) {
-    // Add the id and the sticky flag to make the default quotations non removable.
-    quotation.id = index + 1;
-    quotation.isSticky = true;
-
-    return quotation;
-});
-
-// Returns an array with all quotations.
-___API.get(_URI_BASE + 'api/quotations', function (req, res) {
-    return new Response(JSON.stringify(quotations.filter(function (item) {
-        return item !== null;
-    })));
-});
-
-// Delete a quote specified by id. The id is the position in the collection
-// of quotations (the position is 1 based instead of 0).
-___API.delete(_URI_BASE + 'api/quotations/:id', function (req, res) {
-    var id = parseInt(req.parameters.id, 10) - 1;
-    if (!quotations[id].isSticky) {
-        quotations[id] = null;
-    }
-    return new Response({ status: 204 });
-});
-
-// Add a new quote to the collection.
-___API.post(_URI_BASE + 'api/quotations', function (req, res) {
-
-    console.log('ADD_ITEM: ' + _URI_BASE, req);
-
-    return req.json().then(function (quote) {
-        quote.id = quotations.length + 1;
-        quotations.push(quote);
-        return new Response(JSON.stringify(quote), { status: 201 });
-    });
-});
-
-////___API.post(root + 'subscribe', function (req, res) {
-
-////    console.log('/SUBSCRIBE: ' + root, req);
-
-////    return fetch(req);
-////});
-
-//#endregion
-
-///////////////////////////////////////////////////////////////////////////////////
-
 //#region [ DB CACHE ]
 
 importScripts('./lib/cache.js');
@@ -248,8 +163,14 @@ var db___check_save = function (key, o) {
 
     COUNTER_CHECK++;
     if (COUNTER_CHECK == _CACHE_URLS.length) {
-        console.log('SW -> DB_CHECKING: _DBS_INFO = ', _DBS_INFO);
-        if (_DB_SYNC_ONCE_INSTALL_SW)
+
+        var allZero = true;
+        for (var name in _DBS_INFO)
+            if (_DBS_INFO[name].size > 0) allZero = false;
+
+        console.log('SW -> DB_CHECKING: _DBS_INFO = ', _DBS_INFO, ', allZero = ', allZero);
+
+        if (_DB_SYNC_ONCE_INSTALL_SW || allZero)
             db___sync();
         else
             db___on_sync_done();
@@ -370,10 +291,24 @@ var db___on_sync_done = function () {
 
 //#endregion
 
+console.log('??????????????????????? === db___check');
+db___check();
+
 ///////////////////////////////////////////////////////////////////////////////////
+
+//#region [ FETCH - API ]
+
+var _URI_BASE = 'https://test.f88.vn/';
+console.log('API -> URI_BASE = ', _URI_BASE);
+
+importScripts('./lib/ServiceWorkerWare.js');
+
+//By using Mozilla's ServiceWorkerWare we can quickly setup some routes
+var ___API = new ServiceWorkerWare();
+
+importScripts('./api/quote.js');
 
 // Start the service worker.
 ___API.init();
 
-console.log('??????????????????????? === db___check');
-db___check();
+//#endregion
