@@ -45,6 +45,27 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "F88.Mobility.PawnOnline", "
 		SlnRelativePath = "..\F88\F88.Mobility.PawnOnline\"
 	EndProjectSection
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "F88.Mobility.Ids", "..\F88\F88.Mobility.Ids\", "{07EF52D7-884A-40A1-AED5-1746C13D6D7F}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv2.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_57969"
+		Debug.AspNetCompiler.PhysicalPath = "..\F88\F88.Mobility.Ids\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_57969\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_57969"
+		Release.AspNetCompiler.PhysicalPath = "..\F88\F88.Mobility.Ids\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_57969\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "57969"
+		SlnRelativePath = "..\F88\F88.Mobility.Ids\"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +75,8 @@ Global
 		{BAE5FE0F-C096-4D7E-A9D5-FA3A11F8020F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF4D81B1-F201-4E8E-B29A-32449388123A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AF4D81B1-F201-4E8E-B29A-32449388123A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07EF52D7-884A-40A1-AED5-1746C13D6D7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07EF52D7-884A-40A1-AED5-1746C13D6D7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

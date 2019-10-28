@@ -1,9 +1,9 @@
 ﻿
 const _DB_CACHE_POS_LOCAL = {
     user: 'mobile',
-    password: 'rmKG9fnwW2rGxBsE',
-    server: '171.244.51.123',
-    database: 'Release_FB51_App_230919'
+    password: 'asdasd',
+    server: 'adasd',
+    database: 'asdasd'
 };
 
 const sql = require('mssql');
