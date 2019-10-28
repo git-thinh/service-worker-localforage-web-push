@@ -1,8 +1,58 @@
+//#region [ BASE ]
 
-var ENDPOINT = 'https://test.f88.vn/api/quotations';
+var ___guid = function () {
+    return 'id-xxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+};
 
+var ___go_login = function (msg) {
+    if (msg && msg.length > 0)
+        location.href = location.protocol + '//' + location.host + '/login?message=' + msg;
+    else
+        location.href = location.protocol + '//' + location.host + '/login';
+};
 
-function urlBase64ToUint8Array(base64String) {
+//#endregion
+
+//#region [ MSG_CLIENT ]
+
+var _CLIENT_ID = ___guid();
+
+const _MSG_CLIENT = new BroadcastChannel(_CLIENT_ID);
+_MSG_CLIENT.onmessage = e => ___msg_on_message(e);
+var ___msg_on_message = function (e) {
+    var m = e.data;
+    console.log('UI.ON_MESSAGE <- ', m);
+
+    if (typeof m == 'string') {
+        ;
+    } else {
+        switch (m.command) {
+            case 'CACHE_DONE':
+
+                _app_ready();
+
+                _V_COM_ALL.forEach(v => {
+                    if (typeof v.___cache_done == 'function') {
+                        setTimeout(v.___cache_done, 1);
+                    }
+                });
+
+                break;
+        }
+    }
+
+};
+
+//#endregion
+
+//#region [ WEB_PUSH ]
+
+const _WEB_PUSH_PUBLIC_VAPID_KEY = 'BMHYaPEnL1SiYgRQHt7cDz_kuFTY7DrPTQCv3q-SuK2BcOPz4EJG5CWO4ss72nYvcRnjaGuxE-OySrZv9oJmDnI';
+
+var webpush___urlbase64_to_uint8array = function (base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
     const base64 = (base64String + padding)
         .replace(/-/g, '+')
@@ -15,10 +65,38 @@ function urlBase64ToUint8Array(base64String) {
         outputArray[i] = rawData.charCodeAt(i);
     }
     return outputArray;
-}
+};
 
-const publicVapidKey = 'BMHYaPEnL1SiYgRQHt7cDz_kuFTY7DrPTQCv3q-SuK2BcOPz4EJG5CWO4ss72nYvcRnjaGuxE-OySrZv9oJmDnI';
+var webpush___sub_register = async function () {
 
+    const subscription = await _REG.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: webpush___urlbase64_to_uint8array(_WEB_PUSH_PUBLIC_VAPID_KEY)
+    });
+
+    console.log('UI -> acceptance complete: subscription');
+
+    //const m = new BroadcastChannel('MSG_REG_WEB_PUSH');
+    //m.postMessage(JSON.stringify(subscription));
+    //m.close();
+
+    await fetch('/subscribe', {
+        method: 'POST',
+        body: JSON.stringify(subscription),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json()).then(j => {
+        console.log('post -> subscrib: ok = ', j);
+    }).catch((err) => {
+        console.log('post -> subscrib: error = ', err);
+    });
+
+};
+
+//#endregion
+
+//#region [ SERVICE WORKER ]
 
 var _SW, _REG;
  
@@ -30,12 +108,10 @@ var _sw_reinstall = function (callback) {
             navigator.serviceWorker.ready.then(async function (registration) {
                 console.log('A service worker is active:', registration.active.state);
                 console.log('UI -> SW_INSTALL = USER_INIT ...');
-
-
-                _REG = registration;
-                console.log('UI -> waiting for acceptance: _REG = ', _REG);
-
                 
+                _REG = registration;
+                console.log('UI -> waiting for acceptance: _REG');
+                                
                 setTimeout(function () {
                     resolve({ ok: true });
                 }, 300);
@@ -56,40 +132,13 @@ var _sw_reinstall = function (callback) {
     });
 };
 
-
-
-
 _sw_reinstall().then(async () => {
-
-
-    const subscription = await _REG.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-    });
-
-    console.log('UI -> acceptance complete: subscription = ', subscription);
-
-
-    //const m = new BroadcastChannel('MSG_REG_WEB_PUSH');
-    //m.postMessage(JSON.stringify(subscription));
-    //m.close();
-
-
-    await fetch('/subscribe', {
-        method: 'POST',
-        body: JSON.stringify(subscription),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(res => res.json()).then(j => {
-        console.log('post -> subscrib: ok = ', j);
-    }).catch((err) => {
-        console.log('post -> subscrib: error = ', err);
-    });
-
+    await webpush___sub_register();
+    console.log('WEB-PUSH -> DONE .........');
     loadQuotations();
 });
 
+//#endregion
 
 
 
@@ -101,6 +150,9 @@ _sw_reinstall().then(async () => {
 
 
 
+
+
+var ENDPOINT = 'https://test.f88.vn/api/quotations';
 
 // When clicking add button, get the new quote and author and post to
 // the backend.
@@ -139,6 +191,7 @@ document.getElementById('add-form').onsubmit = function (event) {
 // A simply `GET` (default operation for `fetch()`) is enough to retrieve
 // the collection of quotes.
 function loadQuotations() {
+    console.log('UI -> BEGIN LOADING ............');
     fetch(ENDPOINT)
         .then(function (response) {
             return response.json();
